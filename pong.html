@@ -1,0 +1,64 @@
+<canvas id="gc" width="400" height="400"></canvas>
+<script>
+window.onload=function() {
+	canv=document.getElementById("gc");
+	ctx=canv.getContext("2d");
+	document.addEventListener("keydown",keyPush);
+	setInterval(game,1000/100);
+}
+
+gs = tc = 20;
+
+bx = 10;
+by = 9;
+bvx = bvy = 0.1;
+
+p1x = 1;
+p1y = 8;
+p1s = 5;
+
+function game(){
+	ctx.fillStyle="black";
+	ctx.fillRect(0,0,canv.width,canv.height);
+
+	bx += bvx;
+	by += bvy;
+	if( by <= 0 ){
+		bvy = -bvy;
+	}
+	if( by >= gs-1){
+		bvy = -bvy;
+	}
+	if( bx < 0){
+		bx = 10;
+		by = 9;
+		bvx = bvy = 0.1;
+	}
+	if( bx >= gs-1){
+		bvx = -bvx;
+	}
+
+	if( (bx >= p1x && bx < p1x + 1 )  && by <= (p1y + p1s -1) && by >= p1y  ){
+		bvx = -bvx;
+	}
+
+	ctx.fillStyle="white";
+	ctx.fillRect(p1x*gs,p1y*gs,gs-2,gs*p1s);
+
+
+	ctx.fillStyle="white";
+	ctx.fillRect(bx*gs,by*gs,gs-2,gs-2);
+}
+function keyPush(evt) {
+	switch(evt.keyCode) {
+		case 38:
+			if(p1y <= 0)return;
+			p1y--;
+			break;
+		case 40:
+			if(p1y + p1s >= tc)return;	
+			p1y++;
+			break;
+	}
+}
+</script>
